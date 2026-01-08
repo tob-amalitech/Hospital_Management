@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" spacing="8" fx:controller="com.hospital.controller.DepartmentManagementController">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+
+    <HBox spacing="8">
+        <TextField fx:id="txtName" promptText="Department name" />
+        <TextField fx:id="txtLocation" promptText="Location" />
+        <Button text="Add" onAction="#onAdd" />
+    </HBox>
+    <ListView fx:id="listDepartments" prefHeight="400" />
+    <HBox spacing="8">
+        <Button text="Edit" onAction="#onEdit" />
+        <Button text="Delete" onAction="#onDelete" />
+    </HBox>
+</VBox>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" spacing="20" fx:controller="com.hospital.controller.ReportController">
+    <Label text="Reports &amp; Analytics" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+    <Label text="This module is under construction." style="-fx-font-size: 16px; -fx-text-fill: #7f8c8d;"/>
+    <Label text="(Phase 4 Requirement - Implementation Pending)" />
+</VBox>

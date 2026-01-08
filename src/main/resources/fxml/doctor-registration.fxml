@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<GridPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hospital.controller.DoctorRegistrationController" hgap="8" vgap="8">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+
+    <Label text="First Name:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+    <TextField fx:id="txtFirstName" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+    <Label text="Last Name:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+    <TextField fx:id="txtLastName" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+
+    <Label text="Specialization:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+    <TextField fx:id="txtSpecialization" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+
+    <Label text="Phone:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+    <TextField fx:id="txtPhone" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+
+    <Label text="Email:" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+    <TextField fx:id="txtEmail" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+
+    <Label text="License Number:" GridPane.rowIndex="5" GridPane.columnIndex="0" />
+    <TextField fx:id="txtLicense" GridPane.rowIndex="5" GridPane.columnIndex="1" />
+
+    <Label text="Department:" GridPane.rowIndex="6" GridPane.columnIndex="0" />
+    <ComboBox fx:id="cmbDepartment" promptText="Select Department" GridPane.rowIndex="6" GridPane.columnIndex="1" prefWidth="200" />
+
+    <Button fx:id="btnSubmit" text="Register" onAction="#onSubmit" GridPane.rowIndex="7" GridPane.columnIndex="1" />
+</GridPane>

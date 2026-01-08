@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hospital.controller.MainController" prefWidth="1024" prefHeight="768">
+    
+    <!-- Side Navigation Panel -->
+    <left>
+        <VBox styleClass="sidebar" minWidth="200" maxWidth="200">
+            <Label text="Hospital MS" textFill="WHITE" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-padding: 20 0 20 10;"/>
+            
+            <ToggleButton fx:id="btnDashboard" text="Dashboard" onAction="#openDashboard" maxWidth="Infinity" styleClass="sidebar-button">
+                <toggleGroup>
+                    <ToggleGroup fx:id="navGroup"/>
+                </toggleGroup>
+            </ToggleButton>
+            
+            <ToggleButton fx:id="btnPatients" text="Patients" onAction="#openPatients" maxWidth="Infinity" styleClass="sidebar-button" toggleGroup="$navGroup"/>
+            <ToggleButton fx:id="btnDoctors" text="Doctors" onAction="#openDoctors" maxWidth="Infinity" styleClass="sidebar-button" toggleGroup="$navGroup"/>
+            <ToggleButton fx:id="btnAppointments" text="Appointments" onAction="#openAppointments" maxWidth="Infinity" styleClass="sidebar-button" toggleGroup="$navGroup"/>
+            <ToggleButton fx:id="btnDepartments" text="Departments" onAction="#openDepartments" maxWidth="Infinity" styleClass="sidebar-button" toggleGroup="$navGroup"/>
+            <ToggleButton fx:id="btnRecords" text="Medical Records" onAction="#openMedicalRecords" maxWidth="Infinity" styleClass="sidebar-button" toggleGroup="$navGroup"/>
+            <ToggleButton fx:id="btnReports" text="Reports" onAction="#openReports" maxWidth="Infinity" styleClass="sidebar-button" toggleGroup="$navGroup"/>
+            
+            <Region VBox.vgrow="ALWAYS" />
+            
+            <Button text="Exit" onAction="#onExit" maxWidth="Infinity" styleClass="sidebar-button"/>
+        </VBox>
+    </left>
+
+    <!-- Main Content Area -->
+    <center>
+        <AnchorPane fx:id="contentPane" style="-fx-background-color: #ecf0f1;">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+        </AnchorPane>
+    </center>
+    
+    <!-- Status Bar -->
+    <bottom>
+        <HBox styleClass="status-bar" spacing="10">
+            <Label text="Status:" style="-fx-font-weight: bold;"/>
+            <Label fx:id="lblConnectionStatus" text="Checking connection..."/>
+        </HBox>
+    </bottom>
+    
+</BorderPane>

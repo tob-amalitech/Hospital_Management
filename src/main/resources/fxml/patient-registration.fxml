@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<GridPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hospital.controller.PatientRegistrationController" hgap="8" vgap="8">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+
+    <Label text="First Name:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+    <TextField fx:id="txtFirstName" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+    <Label text="Last Name:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+    <TextField fx:id="txtLastName" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+
+    <Label text="Date of Birth:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+    <DatePicker fx:id="dpDob" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+
+    <Label text="Gender:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+    <ComboBox fx:id="cmbGender" promptText="Select Gender" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+
+    <Label text="Phone:" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+    <TextField fx:id="txtPhone" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+
+    <Label text="Email:" GridPane.rowIndex="5" GridPane.columnIndex="0" />
+    <TextField fx:id="txtEmail" GridPane.rowIndex="5" GridPane.columnIndex="1" />
+
+    <Label text="Address:" GridPane.rowIndex="6" GridPane.columnIndex="0" />
+    <TextArea fx:id="txtAddress" GridPane.rowIndex="6" GridPane.columnIndex="1" />
+
+    <Label text="Blood Group:" GridPane.rowIndex="7" GridPane.columnIndex="0" />
+    <TextField fx:id="txtBloodGroup" GridPane.rowIndex="7" GridPane.columnIndex="1" />
+
+    <Button fx:id="btnSubmit" text="Register" onAction="#onSubmit" GridPane.rowIndex="8" GridPane.columnIndex="1" />
+</GridPane>

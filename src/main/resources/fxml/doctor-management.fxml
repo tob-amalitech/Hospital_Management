@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" spacing="8" fx:controller="com.hospital.controller.DoctorManagementController">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+
+    <HBox spacing="8">
+        <TextField fx:id="txtSearch" promptText="Search doctors..." />
+        <Button text="Search" onAction="#onSearch" />
+        <Region HBox.hgrow="ALWAYS" />
+        <Button text="Add" onAction="#onAdd" />
+        <Button text="Edit" onAction="#onEdit" />
+        <Button text="Delete" onAction="#onDelete" />
+    </HBox>
+    <TableView fx:id="tableDoctors" prefHeight="400">
+        <columns>
+            <TableColumn text="ID" fx:id="colId" />
+            <TableColumn text="First Name" fx:id="colFirst" />
+            <TableColumn text="Last Name" fx:id="colLast" />
+            <TableColumn text="Specialization" fx:id="colSpec" />
+            <TableColumn text="Email" fx:id="colEmail" />
+        </columns>
+    </TableView>
+</VBox>

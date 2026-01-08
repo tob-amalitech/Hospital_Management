@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" spacing="8" fx:controller="com.hospital.controller.AppointmentSchedulingController">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+
+    <HBox spacing="8">
+        <DatePicker fx:id="dpDate" />
+        <ComboBox fx:id="cmbDoctor" promptText="Select doctor" />
+        <ComboBox fx:id="cmbPatient" promptText="Select patient" />
+        <TextField fx:id="txtTime" promptText="HH:MM" />
+        <Button text="Schedule" onAction="#onSchedule" />
+    </HBox>
+    <TableView fx:id="tableAppointments" prefHeight="400">
+        <columns>
+            <TableColumn text="ID" fx:id="colId" />
+            <TableColumn text="Date" fx:id="colDate" />
+            <TableColumn text="Time" fx:id="colTime" />
+            <TableColumn text="Patient" fx:id="colPatient" />
+            <TableColumn text="Doctor" fx:id="colDoctor" />
+            <TableColumn text="Status" fx:id="colStatus" />
+        </columns>
+    </TableView>
+</VBox>

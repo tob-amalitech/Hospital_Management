@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" spacing="10" fx:controller="com.hospital.controller.MedicalRecordsController">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+
+    <Label text="Medical Records" styleClass="header-label"/>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Select Patient:"/>
+        <ComboBox fx:id="cmbPatients" prefWidth="250" promptText="Search or select patient..."/>
+        <Button text="Load Records" onAction="#onLoadRecords"/>
+    </HBox>
+
+    <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+            
+            <Tab text="Appointment History">
+                <VBox spacing="10">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+                    <TableView fx:id="tableAppointments" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="colDate" text="Date" />
+                            <TableColumn fx:id="colTime" text="Time" />
+                            <TableColumn fx:id="colDoctor" text="Doctor" />
+                            <TableColumn fx:id="colStatus" text="Status" />
+                        </columns>
+                    </TableView>
+                </VBox>
+            </Tab>
+
+            <Tab text="Prescriptions">
+                <VBox spacing="10">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+                    <ListView fx:id="listPrescriptions" VBox.vgrow="ALWAYS"/>
+                </VBox>
+            </Tab>
+
+            <Tab text="Personal Info">
+                <VBox spacing="15">
+                     <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+                    <GridPane hgap="20" vgap="10">
+                        <Label text="Patient ID:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight: bold;"/>
+                        <Label fx:id="lblId" text="-" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                        <Label text="Name:" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-font-weight: bold;"/>
+                        <Label fx:id="lblName" text="-" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                        <Label text="Date of Birth:" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-font-weight: bold;"/>
+                        <Label fx:id="lblDob" text="-" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+                        <Label text="Contact:" GridPane.columnIndex="0" GridPane.rowIndex="3" style="-fx-font-weight: bold;"/>
+                        <Label fx:id="lblContact" text="-" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                        
+                        <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="4" style="-fx-font-weight: bold;"/>
+                        <Label fx:id="lblEmail" text="-" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                    </GridPane>
+                </VBox>
+            </Tab>
+
+    </TabPane>
+</VBox>

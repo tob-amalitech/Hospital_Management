@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" spacing="10" fx:controller="com.hospital.controller.DashboardController">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+    <HBox spacing="16">
+        <Label text="Total Patients:" />
+        <Label fx:id="lblPatients" text="0" />
+        <Label text="Total Doctors:" />
+        <Label fx:id="lblDoctors" text="0" />
+        <Label text="Today's Appointments:" />
+        <Label fx:id="lblToday" text="0" />
+    </HBox>
+    <Label text="Quick Actions" />
+    <HBox spacing="8">
+        <Button text="New Patient" onAction="#onNewPatient" />
+        <Button text="New Appointment" onAction="#onNewAppointment" />
+    </HBox>
+</VBox>
