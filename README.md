@@ -1,49 +1,64 @@
-Hospital Management System - Starter
+# Hospital Management System
 
-This repository contains a starter JavaFX + JDBC (PostgreSQL) project with MVC structure.
+This repository contains a **Medical Record System** built with **JavaFX** (MVC pattern), utilizing a hybrid database architecture:
+-   **PostgreSQL**: For structured data (Patients, Doctors, Appointments, Departments).
+-   **MongoDB**: For unstructured data (Patient Medical Logs/Notes).
 
-Quick start
+## Prerequisites
+-   Java 17+
+-   Maven
+-   PostgreSQL local server (default port 5432)
+-   MongoDB local server (default port 27017)
 
-1. Configure database in `src/main/resources/config.properties` or via environment variables `DB_URL`, `DB_USER`, `DB_PASS`.
-2. Ensure PostgreSQL is running and the `patients` table exists. Example schema snippet:
+## Quick Start
 
-   CREATE TABLE patients (
-     patient_id SERIAL PRIMARY KEY,
-     first_name TEXT,
-     last_name TEXT,
-     date_of_birth DATE,
-     gender TEXT,
-     phone TEXT,
-     email TEXT,
-     address TEXT,
-     blood_group TEXT,
-     registration_date DATE
-   );
+1.  **Database Configuration**
+    -   Configure PostgreSQL settings in `src/main/resources/config.properties`.
+    -   Ensure MongoDB is running locally on port 27017 (standard).
 
-3. Build in IDE or with Maven:
+2.  **PostgreSQL Setup**
+    -   Ensure the `hospital_db` database exists.
+    -   Run the schema script located at `src/main/resources/db/schema.sql` using `psql`:
+        ```bash
+        psql -h localhost -U postgres -d hospital_db -f src/main/resources/db/schema.sql
+        ```
+    -   *Or manually create the tables:*
+        ```sql
+        CREATE TABLE patients (
+          patient_id SERIAL PRIMARY KEY,
+          first_name TEXT,
+          last_name TEXT,
+          date_of_birth DATE,
+          gender TEXT,
+          phone TEXT,
+          email TEXT,
+          address TEXT,
+          blood_group TEXT,
+          registration_date DATE
+        );
+        ```
 
-```bash
-mvn clean package
-```
+3.  **Build**
+    ```bash
+    mvn clean package
+    ```
 
-4. Run from IDE by launching `com.hospital.Main` or use Maven exec plugin (IDE recommended for JavaFX runtime args).
+4.  **Run**
+    -   Launch `com.hospital.Main` from your IDE.
+    -   *Or via Maven:*
+        ```bash
+        mvn javafx:run
+        ```
 
-Notes
-- Uses HikariCP for connection pooling.
-- PreparedStatements used throughout to avoid SQL injection.
-- Basic in-memory cache implemented for patients.
-- Logging uses `System.out.println` for now.
+## Architecture Notes
+-   **Design Pattern**: MVC (Model-View-Controller).
+-   **Persistence**:
+    -   `HikariCP` connection pooling for PostgreSQL.
+    -   `mongodb-driver-sync` for MongoDB interactions.
+-   **UI**: JavaFX with FXML and CSS styling.
+-   **Utilities**: Centralized database connection handling (`DatabaseConnection`, `MongoConnection`) and Validation utilities.
 
-Database schema
-
-You can apply the provided schema with psql. The SQL file is at `src/main/resources/db/schema.sql`.
-Apply it with:
-
-```bash
-psql -h localhost -U postgres -d hospital_db -f src/main/resources/db/schema.sql
-```
-
-Next steps
-- Implement navigation to load `patient-registration.fxml` into the main view.
-- Add validations and more DAOs/services for doctors, departments, appointments.
-- Replace `System.out.println` with a logging framework.
+## Next Steps
+-   [ ] Implement Authentication/Login screen.
+-   [ ] Add advanced reporting and analytics.
+-   [ ] Enhance UI with more interactive dashboards.
