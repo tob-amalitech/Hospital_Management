@@ -62,3 +62,6 @@ This repository contains a **Medical Record System** built with **JavaFX** (MVC 
 -   [ ] Implement Authentication/Login screen.
 -   [ ] Add advanced reporting and analytics.
 -   [ ] Enhance UI with more interactive dashboards.
+
+## More Info on Database Design and Normalization
+https://reliable-oregano-417.notion.site/Hospital_Database_Schema_Design-2edf1ed48c8081b1b515e524f4ed08fd?source=copy_link
