@@ -12,9 +12,9 @@
         <TextField fx:id="txtSearch" promptText="Search by name..." />
         <Button text="Search" onAction="#onSearch" />
         <Region HBox.hgrow="ALWAYS" />
-        <Button text="Add" onAction="#onAdd" />
+        <Button text="Add" onAction="#onAdd" style="-fx-background-color: #4CAF50;" />
         <Button text="Edit" onAction="#onEdit" />
-        <Button text="Delete" onAction="#onDelete" />
+        <Button text="Delete" onAction="#onDelete" style="-fx-background-color: #f44336;" />
     </HBox>
     <TableView fx:id="tablePatients" prefHeight="400">
         <columns>

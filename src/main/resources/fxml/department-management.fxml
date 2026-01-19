@@ -11,11 +11,11 @@
     <HBox spacing="8">
         <TextField fx:id="txtName" promptText="Department name" />
         <TextField fx:id="txtLocation" promptText="Location" />
-        <Button text="Add" onAction="#onAdd" />
+        <Button text="Add" onAction="#onAdd" style="-fx-background-color: #4CAF50;" />
     </HBox>
     <ListView fx:id="listDepartments" prefHeight="400" />
     <HBox spacing="8">
         <Button text="Edit" onAction="#onEdit" />
-        <Button text="Delete" onAction="#onDelete" />
+        <Button text="Delete" onAction="#onDelete" style="-fx-background-color: #f44336;" />
     </HBox>
 </VBox>

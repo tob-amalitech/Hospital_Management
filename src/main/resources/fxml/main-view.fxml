@@ -9,7 +9,7 @@
     <!-- Side Navigation Panel -->
     <left>
         <VBox styleClass="sidebar" minWidth="200" maxWidth="200">
-            <Label text="Hospital MS" textFill="WHITE" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-padding: 20 0 20 10;"/>
+            <Label text="Hospital MS" textFill="#FFFFFF" style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold; -fx-padding: 20 0 20 10;"/>
             
             <ToggleButton fx:id="btnDashboard" text="Dashboard" onAction="#openDashboard" maxWidth="Infinity" styleClass="sidebar-button">
                 <toggleGroup>

@@ -16,7 +16,7 @@
     </HBox>
     <Label text="Quick Actions" />
     <HBox spacing="8">
-        <Button text="New Patient" onAction="#onNewPatient" />
+        <Button text="New Patient" onAction="#onNewPatient" style="-fx-background-color: #4CAF50;" />
         <Button text="New Appointment" onAction="#onNewAppointment" />
     </HBox>
 </VBox>

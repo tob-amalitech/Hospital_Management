@@ -44,6 +44,35 @@
                 </VBox>
             </Tab>
 
+            <Tab text="Diagnosis &amp; History">
+                 <VBox spacing="10">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+                    <TableView fx:id="tableMedicalRecords" VBox.vgrow="ALWAYS">
+                        <columns>
+                             <TableColumn fx:id="colRecordDate" text="Date" />
+                             <TableColumn fx:id="colDiagnosis" text="Diagnosis" />
+                             <TableColumn fx:id="colTreatment" text="Treatment" />
+                        </columns>
+                    </TableView>
+                </VBox>
+            </Tab>
+
+            <Tab text="Notes (NoSQL)">
+                <VBox spacing="10">
+                    <padding>
+                         <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+                    <HBox spacing="10">
+                        <TextArea fx:id="txtNewNote" promptText="Enter doctor notes (unstructured)..." prefRowCount="3" HBox.hgrow="ALWAYS"/>
+                        <Button text="Save Note" onAction="#onSaveNote" minWidth="80"/>
+                    </HBox>
+                    <Label text="History:" style="-fx-font-weight: bold;"/>
+                    <ListView fx:id="listNotes" VBox.vgrow="ALWAYS"/>
+                </VBox>
+            </Tab>
+
             <Tab text="Personal Info">
                 <VBox spacing="15">
                      <padding>
