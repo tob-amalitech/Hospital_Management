@@ -1,5 +1,7 @@
 package com.hospital.controller;
 
+import com.hospital.model.Doctor;
+import com.hospital.model.Patient;
 import com.hospital.util.DatabaseConnection;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -127,6 +129,43 @@ public class MainController {
     }
 
     /**
+     * Navigates to the Patient Registration view with a patient to edit.
+     */
+    public void openPatientRegistrationForEdit(com.hospital.model.Patient patient) {
+        // Keep Patients selected as it is a sub-action
+        if (btnPatients != null)
+            btnPatients.setSelected(true);
+
+        try {
+            java.net.URL url = getClass().getResource("/fxml/patient-registration.fxml");
+            if (url == null) {
+                com.hospital.util.AlertUtil.showError("Navigation Error", "Cannot find patient registration resource");
+                return;
+            }
+
+            // Create FXMLLoader instance to get access to the controller
+            FXMLLoader loader = new FXMLLoader(url);
+            Parent root = loader.load();
+            contentPane.getChildren().setAll(root);
+            AnchorPane.setTopAnchor(root, 0.0);
+            AnchorPane.setBottomAnchor(root, 0.0);
+            AnchorPane.setLeftAnchor(root, 0.0);
+            AnchorPane.setRightAnchor(root, 0.0);
+
+            // Get the controller and set the patient for editing
+            PatientRegistrationController controller = loader.getController();
+            if (controller != null && patient != null) {
+                controller.setEditingPatient(patient);
+            }
+        } catch (Exception e) {
+            System.err.println("Failed to load view: /fxml/patient-registration.fxml -> " + e.getMessage());
+            e.printStackTrace();
+            com.hospital.util.AlertUtil.showError("Navigation Error",
+                    "Failed to load patient registration:\n" + e.getMessage());
+        }
+    }
+
+    /**
      * Navigates to the Patient Management view.
      */
     @FXML
@@ -143,6 +182,43 @@ public class MainController {
         if (btnDoctors != null)
             btnDoctors.setSelected(true);
         loadView("/fxml/doctor-registration.fxml");
+    }
+
+    /**
+     * Navigates to the Doctor Registration view with a doctor to edit.
+     */
+    public void openDoctorRegistrationForEdit(com.hospital.model.Doctor doctor) {
+        // Keep Doctors selected as it is a sub-action
+        if (btnDoctors != null)
+            btnDoctors.setSelected(true);
+
+        try {
+            java.net.URL url = getClass().getResource("/fxml/doctor-registration.fxml");
+            if (url == null) {
+                com.hospital.util.AlertUtil.showError("Navigation Error", "Cannot find doctor registration resource");
+                return;
+            }
+
+            // Create FXMLLoader instance to get access to the controller
+            FXMLLoader loader = new FXMLLoader(url);
+            Parent root = loader.load();
+            contentPane.getChildren().setAll(root);
+            AnchorPane.setTopAnchor(root, 0.0);
+            AnchorPane.setBottomAnchor(root, 0.0);
+            AnchorPane.setLeftAnchor(root, 0.0);
+            AnchorPane.setRightAnchor(root, 0.0);
+
+            // Get the controller and set the doctor for editing
+            DoctorRegistrationController controller = loader.getController();
+            if (controller != null && doctor != null) {
+                controller.setEditingDoctor(doctor);
+            }
+        } catch (Exception e) {
+            System.err.println("Failed to load view: /fxml/doctor-registration.fxml -> " + e.getMessage());
+            e.printStackTrace();
+            com.hospital.util.AlertUtil.showError("Navigation Error",
+                    "Failed to load doctor registration:\n" + e.getMessage());
+        }
     }
 
     /**

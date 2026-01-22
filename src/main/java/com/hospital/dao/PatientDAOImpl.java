@@ -1,7 +1,9 @@
 package com.hospital.dao;
 
 import com.hospital.model.Patient;
+import com.hospital.util.Cache;
 import com.hospital.util.DatabaseConnection;
+import com.hospital.util.PerformanceMonitor;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -10,9 +12,12 @@ import java.util.List;
 
 /**
  * JDBC implementation of PatientDAO. Uses PreparedStatements and connection
- * pooling.
+ * pooling. Includes performance monitoring and caching optimizations.
  */
 public class PatientDAOImpl implements PatientDAO {
+
+    // Cache for search results (TTL: 15 minutes)
+    private static final Cache<String, List<Patient>> searchCache = new Cache<>(15);
 
     @Override
     /**
@@ -142,12 +147,28 @@ public class PatientDAOImpl implements PatientDAO {
     @Override
     /**
      * Searches for patients by name (partial match on first or last name).
-     * 
+     * Uses caching for improved performance.
+     *
      * @param name The name search query.
      * @return A list of matching Patient objects.
      * @throws Exception If a database error occurs.
      */
     public List<Patient> searchByName(String name) throws Exception {
+        if (name == null || name.trim().isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        String cacheKey = "search_" + name.toLowerCase().trim();
+
+        // Check cache first
+        List<Patient> cachedResult = searchCache.get(cacheKey);
+        if (cachedResult != null) {
+            PerformanceMonitor.recordQueryTime("PatientDAO.searchByName (cached)", 0, true);
+            return new ArrayList<>(cachedResult); // Return copy to prevent external modification
+        }
+
+        // Cache miss - execute database query
+        long startTime = System.currentTimeMillis();
         String sql = "SELECT patient_id, first_name, last_name, date_of_birth, gender, phone, email, address, blood_group, registration_date FROM patient WHERE LOWER(first_name) LIKE ? OR LOWER(last_name) LIKE ?";
         List<Patient> list = new ArrayList<>();
         try (Connection conn = DatabaseConnection.getConnection();
@@ -161,6 +182,15 @@ public class PatientDAOImpl implements PatientDAO {
                 }
             }
         }
+        long endTime = System.currentTimeMillis();
+        long executionTime = endTime - startTime;
+
+        // Record performance (before optimization - no caching)
+        PerformanceMonitor.recordQueryTime("PatientDAO.searchByName (database)", executionTime, false);
+
+        // Cache the result
+        searchCache.put(cacheKey, new ArrayList<>(list));
+
         return list;
     }
 

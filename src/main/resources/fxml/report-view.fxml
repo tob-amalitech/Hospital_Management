@@ -3,8 +3,38 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" spacing="20" fx:controller="com.hospital.controller.ReportController">
-    <Label text="Reports &amp; Analytics" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
-    <Label text="This module is under construction." style="-fx-font-size: 16px; -fx-text-fill: #7f8c8d;"/>
-    <Label text="(Phase 4 Requirement - Implementation Pending)" />
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hospital.controller.ReportController" spacing="10" style="-fx-padding: 20;">
+    <Label text="Performance Analytics &amp; Reports" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+
+    <!-- Control Buttons -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Button fx:id="generateReportButton" text="Generate Performance Report" onAction="#generateReport" style="-fx-font-size: 14px;"/>
+        <Button fx:id="clearDataButton" text="Clear Performance Data" onAction="#clearPerformanceData" style="-fx-font-size: 14px;"/>
+        <Button fx:id="runTestsButton" text="Run Performance Tests" onAction="#runPerformanceTests" style="-fx-font-size: 14px;"/>
+        <Label fx:id="cacheStatsLabel" text="Cache Status: Monitoring active" style="-fx-font-style: italic;"/>
+    </HBox>
+
+    <!-- Performance Metrics Table -->
+    <VBox spacing="5">
+        <Label text="Query Performance Comparison" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+        <TableView fx:id="performanceTable" prefHeight="300">
+            <columns>
+                <TableColumn fx:id="queryColumn" text="Query Name" prefWidth="250"/>
+                <TableColumn fx:id="preOptColumn" text="Pre-Opt (ms)" prefWidth="100"/>
+                <TableColumn fx:id="postOptColumn" text="Post-Opt (ms)" prefWidth="100"/>
+                <TableColumn fx:id="improvementColumn" text="Improvement" prefWidth="120"/>
+                <TableColumn fx:id="samplesColumn" text="Samples" prefWidth="80"/>
+            </columns>
+        </TableView>
+    </VBox>
+
+    <!-- Methodology Section -->
+    <VBox spacing="5" VBox.vgrow="ALWAYS">
+        <Label text="Methodology &amp; Implementation Details" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+        <TextArea fx:id="methodologyTextArea" prefHeight="200" wrapText="true"/>
+    </VBox>
+
+    <!-- Footer -->
+    <Label text="User Story 4.1: Performance reports comparing pre- and post-optimization metrics"
+           style="-fx-font-size: 12px; -fx-text-fill: #666; -fx-font-style: italic;"/>
 </VBox>

@@ -2,27 +2,91 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" spacing="8" fx:controller="com.hospital.controller.AppointmentSchedulingController">
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hospital.controller.AppointmentSchedulingController" spacing="15" style="-fx-background-color: #f8f9fa;">
     <padding>
-        <Insets top="10" right="10" bottom="10" left="10"/>
+        <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
 
-    <HBox spacing="8">
-        <DatePicker fx:id="dpDate" />
-        <ComboBox fx:id="cmbDoctor" promptText="Select doctor" />
-        <ComboBox fx:id="cmbPatient" promptText="Select patient" />
-        <TextField fx:id="txtTime" promptText="HH:MM" />
-        <Button text="Schedule" onAction="#onSchedule" />
+    <!-- Header Section -->
+    <VBox spacing="5">
+        <Label text="📅 Appointment Management" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+        <Label text="Schedule and manage patient appointments with doctors" style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d;"/>
+    </VBox>
+
+    <!-- Appointment Scheduling Form -->
+    <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 2, 0, 0, 1);">
+        <Label text="📝 Schedule New Appointment" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #34495e;"/>
+
+        <GridPane hgap="10" vgap="10">
+            <columnConstraints>
+                <ColumnConstraints minWidth="100" prefWidth="120"/>
+                <ColumnConstraints minWidth="200" prefWidth="250"/>
+                <ColumnConstraints minWidth="100" prefWidth="120"/>
+                <ColumnConstraints minWidth="200" prefWidth="250"/>
+            </columnConstraints>
+
+            <!-- Row 1 -->
+            <Label text="Appointment Date:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight: bold;"/>
+            <DatePicker fx:id="dpDate" GridPane.columnIndex="1" GridPane.rowIndex="0" promptText="Select date" style="-fx-pref-width: 200;"/>
+
+            <Label text="Appointment Time:" GridPane.columnIndex="2" GridPane.rowIndex="0" style="-fx-font-weight: bold;"/>
+            <TextField fx:id="txtTime" GridPane.columnIndex="3" GridPane.rowIndex="0" promptText="HH:MM (e.g., 14:30)" style="-fx-pref-width: 200;"/>
+
+            <!-- Row 2 -->
+            <Label text="Select Doctor:" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-font-weight: bold;"/>
+            <ComboBox fx:id="cmbDoctor" GridPane.columnIndex="1" GridPane.rowIndex="1" promptText="Choose a doctor" style="-fx-pref-width: 200;"/>
+
+            <Label text="Select Patient:" GridPane.columnIndex="2" GridPane.rowIndex="1" style="-fx-font-weight: bold;"/>
+            <ComboBox fx:id="cmbPatient" GridPane.columnIndex="3" GridPane.rowIndex="1" promptText="Choose a patient" style="-fx-pref-width: 200;"/>
+        </GridPane>
+
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <Button text="🔄 Refresh" onAction="#onRefresh" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 15;"/>
+            <Button fx:id="btnSchedule" text="📅 Schedule Appointment" onAction="#onSchedule" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 15; -fx-font-size: 14px;"/>
+        </HBox>
+    </VBox>
+
+    <!-- Appointments List Section -->
+    <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 2, 0, 0, 1);" VBox.vgrow="ALWAYS">
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="📋 Appointments" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #34495e;"/>
+            <Label fx:id="lblAppointmentCount" text="(0 appointments)" style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <TextField fx:id="txtSearch" promptText="Search appointments..." style="-fx-pref-width: 200;"/>
+            <Button text="🔍 Search" onAction="#onSearch" style="-fx-background-color: #95a5a6; -fx-text-fill: white;"/>
+        </HBox>
+
+        <TableView fx:id="tableAppointments" prefHeight="400" style="-fx-background-color: white;">
+            <columns>
+                <TableColumn text="ID" fx:id="colId" prefWidth="60" style="-fx-alignment: CENTER;"/>
+                <TableColumn text="📅 Date" fx:id="colDate" prefWidth="100"/>
+                <TableColumn text="⏰ Time" fx:id="colTime" prefWidth="80"/>
+                <TableColumn text="👤 Patient" fx:id="colPatient" prefWidth="150"/>
+                <TableColumn text="👨‍⚕️ Doctor" fx:id="colDoctor" prefWidth="150"/>
+                <TableColumn text="📊 Status" fx:id="colStatus" prefWidth="100"/>
+                <TableColumn text="⚡ Actions" fx:id="colActions" prefWidth="150"/>
+            </columns>
+        </TableView>
+
+        <!-- Action Buttons -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Button text="✏️ Edit Selected" onAction="#onEdit" style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-weight: bold;"/>
+            <Button text="✅ Mark Completed" onAction="#onComplete" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold;"/>
+            <Button text="❌ Cancel Selected" onAction="#onCancel" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold;"/>
+            <Button text="🗑️ Delete Selected" onAction="#onDelete" style="-fx-background-color: #c0392b; -fx-text-fill: white; -fx-font-weight: bold;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="📊 View Statistics" onAction="#onViewStats" style="-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-font-weight: bold;"/>
+        </HBox>
+    </VBox>
+
+    <!-- Status Bar -->
+    <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-background-color: #ecf0f1; -fx-padding: 10; -fx-background-radius: 3;">
+        <Label text="Status:" style="-fx-font-weight: bold;"/>
+        <Label fx:id="lblStatus" text="Ready" style="-fx-text-fill: #27ae60;"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label text="Last updated:" style="-fx-font-size: 11px; -fx-text-fill: #7f8c8d;"/>
+        <Label fx:id="lblLastUpdate" text="Never" style="-fx-font-size: 11px; -fx-text-fill: #7f8c8d;"/>
     </HBox>
-    <TableView fx:id="tableAppointments" prefHeight="400">
-        <columns>
-            <TableColumn text="ID" fx:id="colId" />
-            <TableColumn text="Date" fx:id="colDate" />
-            <TableColumn text="Time" fx:id="colTime" />
-            <TableColumn text="Patient" fx:id="colPatient" />
-            <TableColumn text="Doctor" fx:id="colDoctor" />
-            <TableColumn text="Status" fx:id="colStatus" />
-        </columns>
-    </TableView>
 </VBox>

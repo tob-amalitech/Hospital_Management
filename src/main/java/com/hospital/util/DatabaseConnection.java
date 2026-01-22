@@ -15,9 +15,13 @@ public class DatabaseConnection {
     static {
         try {
             HikariConfig config = new HikariConfig();
-            String url = DatabaseConfig.get("DB_URL", "jdbc:postgresql://localhost:5432/hospital_db");
-            String user = DatabaseConfig.get("DB_USER", "postgres");
-            String pass = DatabaseConfig.get("DB_PASS", "12345");
+            String url = DatabaseConfig.get("DB_URL", null);
+            String user = DatabaseConfig.get("DB_USER", null);
+            String pass = DatabaseConfig.get("DB_PASS", null);
+
+            if (url == null || user == null || pass == null) {
+                throw new RuntimeException("Database credentials not found in .env file. Please ensure DB_URL, DB_USER, and DB_PASS are set.");
+            }
 
             config.setJdbcUrl(url);
             config.setUsername(user);

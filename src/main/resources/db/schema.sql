@@ -141,9 +141,22 @@ CREATE TABLE patient_feedback (
 -- 2. Indexing Strategy
 CREATE INDEX idx_patient_name ON patient (last_name, first_name);
 CREATE INDEX idx_patient_email ON patient (email);
+CREATE INDEX idx_patient_phone ON patient (phone);
+CREATE INDEX idx_patient_registration_date ON patient (registration_date);
 CREATE INDEX idx_appointment_date ON appointment (appointment_date);
 CREATE INDEX idx_appointment_doctor ON appointment (doctor_id);
+CREATE INDEX idx_appointment_patient ON appointment (patient_id);
+CREATE INDEX idx_appointment_status ON appointment (status);
 CREATE INDEX idx_doctor_department ON doctor (department_id);
+CREATE INDEX idx_doctor_specialization ON doctor (specialization);
+CREATE INDEX idx_doctor_name ON doctor (last_name, first_name);
 CREATE INDEX idx_prescription_patient ON prescription (patient_id);
+CREATE INDEX idx_prescription_date ON prescription (prescription_date);
 CREATE INDEX idx_medical_record_patient ON medical_record (patient_id);
+CREATE INDEX idx_medical_record_date ON medical_record (record_date);
+CREATE INDEX idx_medical_record_doctor ON medical_record (doctor_id);
 CREATE INDEX idx_inventory_item_name ON medical_inventory (item_name);
+CREATE INDEX idx_inventory_item_type ON medical_inventory (item_type);
+CREATE INDEX idx_feedback_patient ON patient_feedback (patient_id);
+CREATE INDEX idx_feedback_doctor ON patient_feedback (doctor_id);
+CREATE INDEX idx_feedback_rating ON patient_feedback (rating);

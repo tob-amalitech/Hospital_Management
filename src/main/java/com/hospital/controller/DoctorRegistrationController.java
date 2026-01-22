@@ -9,6 +9,7 @@ import com.hospital.util.ValidationUtil;
 import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -35,9 +36,12 @@ public class DoctorRegistrationController {
     private TextField txtLicense;
     @FXML
     private ComboBox<Department> cmbDepartment;
+    @FXML
+    private Button btnSubmit;
 
     private final DoctorService doctorService = new DoctorService();
     private final DepartmentService departmentService = new DepartmentService();
+    private Doctor editingDoctor = null; // null means we're creating a new doctor
 
     @FXML
     public void initialize() {
@@ -72,6 +76,61 @@ public class DoctorRegistrationController {
                 }
             }
         });
+    }
+
+    /**
+     * Sets the doctor to edit. If doctor is null, we're creating a new doctor.
+     */
+    public void setEditingDoctor(Doctor doctor) {
+        this.editingDoctor = doctor;
+        if (doctor != null) {
+            populateFormForEditing(doctor);
+            btnSubmit.setText("Update Doctor");
+        } else {
+            btnSubmit.setText("Register Doctor");
+        }
+    }
+
+    /**
+     * Populates the form with doctor data for editing.
+     */
+    private void populateFormForEditing(Doctor doctor) {
+        txtFirstName.setText(doctor.getFirstName());
+        txtLastName.setText(doctor.getLastName());
+        txtSpecialization.setText(doctor.getSpecialization());
+        txtPhone.setText(doctor.getPhone());
+        txtEmail.setText(doctor.getEmail());
+        txtLicense.setText(doctor.getLicenseNumber());
+
+        // Set department selection
+        loadDepartmentsAndSelect(doctor.getDepartmentId());
+    }
+
+    /**
+     * Loads departments and selects the specified department.
+     */
+    private void loadDepartmentsAndSelect(int departmentId) {
+        Task<List<Department>> task = new Task<>() {
+            @Override
+            protected List<Department> call() throws Exception {
+                return departmentService.getAll();
+            }
+        };
+        task.setOnSucceeded(e -> {
+            List<Department> departments = task.getValue();
+            cmbDepartment.setItems(FXCollections.observableArrayList(departments));
+
+            // Find and select the doctor's department
+            for (Department dept : departments) {
+                if (dept.getDepartmentId() == departmentId) {
+                    cmbDepartment.setValue(dept);
+                    break;
+                }
+            }
+        });
+        task.setOnFailed(
+                e -> AlertUtil.showError("Error", "Failed to load departments: " + task.getException().getMessage()));
+        new Thread(task).start();
     }
 
     private void loadDepartments() {
@@ -126,6 +185,19 @@ public class DoctorRegistrationController {
             return;
         }
 
+        if (editingDoctor != null) {
+            // Update existing doctor
+            handleUpdateDoctor(fname, lname, spec, phone, email, license, dept);
+        } else {
+            // Create new doctor
+            handleCreateDoctor(fname, lname, spec, phone, email, license, dept);
+        }
+    }
+
+    /**
+     * Handles creating a new doctor.
+     */
+    private void handleCreateDoctor(String fname, String lname, String spec, String phone, String email, String license, Department dept) {
         Task<Integer> task = new Task<>() {
             @Override
             protected Integer call() throws Exception {
@@ -154,6 +226,44 @@ public class DoctorRegistrationController {
         new Thread(task).start();
     }
 
+    /**
+     * Handles updating an existing doctor.
+     */
+    private void handleUpdateDoctor(String fname, String lname, String spec, String phone, String email, String license, Department dept) {
+        Task<Boolean> task = new Task<>() {
+            @Override
+            protected Boolean call() throws Exception {
+                Doctor d = editingDoctor;
+                d.setFirstName(fname);
+                d.setLastName(lname);
+                d.setSpecialization(spec);
+                d.setPhone(phone);
+                d.setEmail(email);
+                d.setLicenseNumber(license);
+                d.setDepartmentId(dept.getDepartmentId());
+
+                return doctorService.updateDoctor(d);
+            }
+        };
+
+        task.setOnSucceeded(e -> {
+            if (task.getValue()) {
+                AlertUtil.showInfo("Success", "Doctor updated successfully");
+                clearForm();
+                editingDoctor = null;
+                btnSubmit.setText("Register Doctor");
+                if (MainController.getInstance() != null) {
+                    MainController.getInstance().openDoctors();
+                }
+            } else {
+                AlertUtil.showError("Update Failed", "Failed to update doctor");
+            }
+        });
+
+        task.setOnFailed(e -> AlertUtil.showError("Error", "Update failed: " + task.getException().getMessage()));
+        new Thread(task).start();
+    }
+
     private void clearForm() {
         txtFirstName.clear();
         txtLastName.clear();
@@ -162,5 +272,7 @@ public class DoctorRegistrationController {
         txtEmail.clear();
         txtLicense.clear();
         cmbDepartment.getSelectionModel().clearSelection();
+        editingDoctor = null;
+        btnSubmit.setText("Register Doctor");
     }
 }

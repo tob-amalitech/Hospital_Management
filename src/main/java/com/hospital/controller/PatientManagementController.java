@@ -93,7 +93,15 @@ public class PatientManagementController {
 
     @FXML
     public void onEdit() {
-        AlertUtil.showInfo("Not Implemented", "Edit function not implemented in this scaffold.");
+        Patient selectedPatient = tablePatients.getSelectionModel().getSelectedItem();
+        if (selectedPatient == null) {
+            AlertUtil.showError("Edit", "No patient selected");
+            return;
+        }
+
+        if (MainController.getInstance() != null) {
+            MainController.getInstance().openPatientRegistrationForEdit(selectedPatient);
+        }
     }
 
     /**

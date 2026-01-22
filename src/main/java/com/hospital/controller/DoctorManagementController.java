@@ -94,7 +94,15 @@ public class DoctorManagementController {
 
     @FXML
     public void onEdit() {
-        AlertUtil.showInfo("Not Implemented", "Edit doctor not implemented.");
+        Doctor selectedDoctor = tableDoctors.getSelectionModel().getSelectedItem();
+        if (selectedDoctor == null) {
+            AlertUtil.showError("Edit", "No doctor selected");
+            return;
+        }
+
+        if (MainController.getInstance() != null) {
+            MainController.getInstance().openDoctorRegistrationForEdit(selectedDoctor);
+        }
     }
 
     /**
