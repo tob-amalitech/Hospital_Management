@@ -6,8 +6,8 @@ import com.mongodb.client.MongoDatabase;
 
 public class MongoConnection {
     // Standard local MongoDB port
-    private static final String CONNECTION_STRING = "mongodb://localhost:27017";
-    private static final String DATABASE_NAME = "hospital_logs";
+    private static final String CONNECTION_STRING = DatabaseConfig.get("MONGO_URL", "mongodb://localhost:27017");
+    private static final String DATABASE_NAME = DatabaseConfig.get("MONGO_DB", "hospital_logs");
 
     private static MongoClient mongoClient;
 
