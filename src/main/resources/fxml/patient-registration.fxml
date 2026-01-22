@@ -30,7 +30,7 @@
     <TextArea fx:id="txtAddress" GridPane.rowIndex="6" GridPane.columnIndex="1" />
 
     <Label text="Blood Group:" GridPane.rowIndex="7" GridPane.columnIndex="0" />
-    <TextField fx:id="txtBloodGroup" GridPane.rowIndex="7" GridPane.columnIndex="1" />
+    <ComboBox fx:id="cmbBloodGroup" promptText="Select Blood Group" GridPane.rowIndex="7" GridPane.columnIndex="1" />
 
     <Button fx:id="btnSubmit" text="Register" onAction="#onSubmit" GridPane.rowIndex="8" GridPane.columnIndex="1" />
 </GridPane>

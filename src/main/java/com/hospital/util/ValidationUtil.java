@@ -6,6 +6,8 @@ import java.util.regex.Pattern;
 public class ValidationUtil {
     private static final Pattern EMAIL = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
     private static final Pattern PHONE = Pattern.compile("^[0-9+()\\-\s]{7,20}$");
+    private static final Pattern NAME = Pattern.compile("^[A-Za-z][A-Za-z\\s]*$");
+    private static final String[] VALID_BLOOD_GROUPS = {"A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"};
 
     public static boolean validateEmail(String email) {
         if (email == null || email.isBlank())
@@ -33,5 +35,39 @@ public class ValidationUtil {
         if (date == null)
             return false;
         return date.isBefore(LocalDate.now());
+    }
+
+    /**
+     * Validates that a name contains only letters and spaces, and doesn't start with a number or symbol.
+     * Names must start with a letter and contain only letters and spaces.
+     */
+    public static boolean validateName(String name) {
+        if (name == null || name.isBlank())
+            return false;
+        return NAME.matcher(name.trim()).matches();
+    }
+
+    /**
+     * Validates that the blood group is one of the valid blood groups.
+     * Valid blood groups: A+, A-, B+, B-, AB+, AB-, O+, O-
+     */
+    public static boolean validateBloodGroup(String bloodGroup) {
+        if (bloodGroup == null || bloodGroup.isBlank())
+            return false;
+
+        String normalized = bloodGroup.trim().toUpperCase();
+        for (String validGroup : VALID_BLOOD_GROUPS) {
+            if (validGroup.equals(normalized)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Gets a list of valid blood groups for display purposes.
+     */
+    public static String[] getValidBloodGroups() {
+        return VALID_BLOOD_GROUPS.clone();
     }
 }

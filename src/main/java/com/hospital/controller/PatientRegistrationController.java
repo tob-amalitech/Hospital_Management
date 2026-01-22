@@ -34,7 +34,7 @@ public class PatientRegistrationController {
     @FXML
     private TextArea txtAddress;
     @FXML
-    private TextField txtBloodGroup;
+    private ComboBox<String> cmbBloodGroup;
     @FXML
     private Button btnSubmit;
 
@@ -45,6 +45,7 @@ public class PatientRegistrationController {
     public void initialize() {
         System.out.println("PatientRegistrationController initialized");
         cmbGender.setItems(FXCollections.observableArrayList("Male", "Female", "Other"));
+        cmbBloodGroup.setItems(FXCollections.observableArrayList(ValidationUtil.getValidBloodGroups()));
     }
 
     /**
@@ -71,7 +72,7 @@ public class PatientRegistrationController {
         txtPhone.setText(patient.getPhone());
         txtEmail.setText(patient.getEmail());
         txtAddress.setText(patient.getAddress());
-        txtBloodGroup.setText(patient.getBloodGroup());
+        cmbBloodGroup.setValue(patient.getBloodGroup());
     }
 
     /**
@@ -83,41 +84,66 @@ public class PatientRegistrationController {
         String lname = txtLastName.getText();
         String phone = txtPhone.getText();
         String email = txtEmail.getText();
+        String bloodGroup = cmbBloodGroup.getValue();
         LocalDate dob = dpDob.getValue();
 
+        // Validate first name
         if (!ValidationUtil.validateRequired(fname)) {
-            AlertUtil.showError("Validation", "First name required");
+            AlertUtil.showError("Validation", "First name is required");
             return;
         }
+        if (!ValidationUtil.validateName(fname)) {
+            AlertUtil.showError("Validation", "First name must start with a letter and contain only letters and spaces");
+            return;
+        }
+
+        // Validate last name
         if (!ValidationUtil.validateRequired(lname)) {
-            AlertUtil.showError("Validation", "Last name required");
+            AlertUtil.showError("Validation", "Last name is required");
             return;
         }
+        if (!ValidationUtil.validateName(lname)) {
+            AlertUtil.showError("Validation", "Last name must start with a letter and contain only letters and spaces");
+            return;
+        }
+
+        // Validate phone
         if (!ValidationUtil.validatePhone(phone)) {
             AlertUtil.showError("Validation", "Invalid phone format");
             return;
         }
+
+        // Validate email
         if (!ValidationUtil.validateEmail(email)) {
             AlertUtil.showError("Validation", "Invalid email format");
             return;
         }
+
+        // Validate blood group if provided
+        if (bloodGroup != null && !bloodGroup.trim().isEmpty() && !ValidationUtil.validateBloodGroup(bloodGroup)) {
+            AlertUtil.showError("Validation", "Invalid blood group. Valid groups are: A+, A-, B+, B-, AB+, AB-, O+, O-");
+            return;
+        }
+
+        // Validate date of birth
         if (dob != null && !ValidationUtil.validateDatePast(dob)) {
             AlertUtil.showError("Validation", "Date of Birth must be in the past.");
+            return;
         }
 
         if (editingPatient != null) {
             // Update existing patient
-            handleUpdatePatient(fname, lname, phone, email, dob);
+            handleUpdatePatient(fname, lname, phone, email, bloodGroup, dob);
         } else {
             // Create new patient
-            handleCreatePatient(fname, lname, phone, email, dob);
+            handleCreatePatient(fname, lname, phone, email, bloodGroup, dob);
         }
     }
 
     /**
      * Handles creating a new patient.
      */
-    private void handleCreatePatient(String fname, String lname, String phone, String email, LocalDate dob) {
+    private void handleCreatePatient(String fname, String lname, String phone, String email, String bloodGroup, LocalDate dob) {
         Task<Integer> task = new Task<>() {
             @Override
             protected Integer call() throws Exception {
@@ -129,7 +155,7 @@ public class PatientRegistrationController {
                 p.setPhone(phone);
                 p.setEmail(email);
                 p.setAddress(txtAddress.getText());
-                p.setBloodGroup(txtBloodGroup.getText());
+                p.setBloodGroup(bloodGroup);
                 p.setRegistrationDate(LocalDate.now());
 
                 return patientService.registerPatient(p);
@@ -152,7 +178,7 @@ public class PatientRegistrationController {
     /**
      * Handles updating an existing patient.
      */
-    private void handleUpdatePatient(String fname, String lname, String phone, String email, LocalDate dob) {
+    private void handleUpdatePatient(String fname, String lname, String phone, String email, String bloodGroup, LocalDate dob) {
         Task<Boolean> task = new Task<>() {
             @Override
             protected Boolean call() throws Exception {
@@ -164,7 +190,7 @@ public class PatientRegistrationController {
                 p.setPhone(phone);
                 p.setEmail(email);
                 p.setAddress(txtAddress.getText());
-                p.setBloodGroup(txtBloodGroup.getText());
+                p.setBloodGroup(bloodGroup);
 
                 return patientService.updatePatient(p);
             }
@@ -197,7 +223,7 @@ public class PatientRegistrationController {
         txtPhone.clear();
         txtEmail.clear();
         txtAddress.clear();
-        txtBloodGroup.clear();
+        cmbBloodGroup.getSelectionModel().clearSelection();
         editingPatient = null;
         btnSubmit.setText("Register Patient");
     }
